@@ -7,10 +7,8 @@ const locations = require('../locations.json');
 const APIAdress = 'https://archive-api.open-meteo.com/v1/archive?';
 
 const f2 = async (lat, long, timeStr, hour) => {
-    const str = APIAdress + `latitude=${lat}&longitude=${long}` +
-        `&start_date=${timeStr}&end_date=${timeStr}&hourly=temperature_2m`;
-    const rArr = await fetch(str)
-        .then(data => data.json());
-    return rArr.hourly.temperature_2m.at(hour);
+    const data = await fetch(APIAdress + `latitude=${lat}&longitude=${long}&start_date=${timeStr}&end_date=${timeStr}&hourly=temperature_2m`).then(data => data.json()).then(data => data.hourly.temperature_2m)
+
+    return data[hour]
 }
 module.exports = f2;
